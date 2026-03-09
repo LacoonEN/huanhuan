@@ -7,7 +7,7 @@
     <style>
         /* CSS 變數：定義主題色 */
         :root {
-            --bg-dark: #07030a; /* 更深的背景，突顯霓虹 */
+            --bg-dark: #07030a; 
             --primary-purple: #8b5cf6;
             --light-purple: #c4b5fd;
             --neon-purple: #a855f7;
@@ -25,7 +25,6 @@
 
         body {
             background-color: var(--bg-dark);
-            /* 優化背景漸層 */
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
@@ -46,13 +45,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem; /* 縮小差距讓整體更緊湊美觀 */
+            gap: 1rem; 
         }
 
-        /* 👑 標題樣式：更顯眼、更有美感 */
+        /* 👑 標題樣式 */
         .hero-title {
             text-align: center;
-            /* 依然保留整體流暢進場 */
             animation: slideDownFade 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             opacity: 0;
             transform: translateY(-20px);
@@ -60,20 +58,18 @@
         }
 
         .hero-title h1 {
-            font-size: 5.5rem; /* 字體加大 */
-            font-weight: 900; /* 極粗字體 */
-            letter-spacing: -2px; /* 緊湊字距更有現代感 */
+            font-size: 5.5rem; 
+            font-weight: 900; 
+            letter-spacing: -2px; 
             line-height: 1;
             margin-bottom: 0.5rem;
             
-            /* 金屬漸層與多重霓虹發光 */
             background: linear-gradient(135deg, #fff 0%, var(--light-purple) 45%, var(--primary-purple) 50%, #fff 55%, var(--light-purple) 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shineText 5s linear infinite;
 
-            /* 強調美感的層次陰影 */
             text-shadow: 
                 0 0 10px rgba(168, 85, 247, 0.8),
                 0 0 20px rgba(168, 85, 247, 0.5),
@@ -84,30 +80,30 @@
             font-size: 1.8rem;
             color: var(--light-purple);
             font-weight: 700;
-            letter-spacing: 10px; /* 大字距副標題 */
+            letter-spacing: 10px; 
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
             margin-top: -5px;
-            margin-left: 10px; /* 平衡字距 */
+            margin-left: 10px; 
         }
 
-        /* 📸 中間圖片區塊：只上下漂浮 */
+        /* 📸 中間圖片區塊：純上下漂浮，無互動 */
         .image-showcase {
             position: relative;
             width: 100%;
-            max-width: 550px; /* 稍微加大 */
+            max-width: 550px; 
             height: 550px;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 5;
-            
-            /* 💡 修改：直接顯示，並進行無限循環的上下漂浮 */
             opacity: 1; 
             animation: floatOnly 6s ease-in-out infinite;
+            /* 讓圖片區塊不攔截滑鼠事件，確保完全沒有互動感 */
+            pointer-events: none; 
         }
 
-        /* 增強背景光暈 */
+        /* 背景光暈 (保持靜態，隨圖片一起漂浮) */
         .image-showcase::before {
             content: '';
             position: absolute;
@@ -118,26 +114,14 @@
             opacity: 0.4;
             border-radius: 50%;
             z-index: -1;
-            transition: all 0.5s ease;
-        }
-
-        .image-showcase:hover::before {
-            opacity: 0.6;
-            transform: scale(1.1);
         }
 
         .character-img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            /* 質感陰影 */
             filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        /* 💡 滑鼠懸停時圖片放大與微傾 */
-        .character-img:hover {
-            transform: scale(1.05) rotate(1deg);
+            /* 移除了 transform 的過渡效果與 hover */
         }
 
         /* 📝 玻璃擬態資訊卡片 */
@@ -169,7 +153,7 @@
             line-height: 1;
         }
 
-        /* 🔄 自我介紹欄位互動特效 */
+        /* 🔄 自我介紹欄位互動特效 (保留) */
         .info-list {
             list-style: none;
             display: flex;
@@ -186,14 +170,12 @@
             background: rgba(255, 255, 255, 0.01);
             border: 1px solid transparent;
             
-            /* 絲滑過渡 */
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
             overflow: hidden;
             cursor: default;
         }
 
-        /* 💡 懸停效果：背景發光、放大、出現左飾條 */
         .info-list li:hover {
             background: rgba(139, 92, 246, 0.08);
             border-color: rgba(139, 92, 246, 0.2);
@@ -201,7 +183,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        /* 懸停時左側的電光飾條 */
         .info-list li::before {
             content: '';
             position: absolute;
@@ -226,13 +207,12 @@
             transition: color 0.3s ease;
         }
         
-        /* 懸停時標題文字變亮 */
         .info-list li:hover strong {
             color: #fff;
             text-shadow: 0 0 5px var(--light-purple);
         }
 
-        /* 社群按鈕區塊 (保持不變) */
+        /* 社群按鈕區塊 */
         .social-links {
             margin-top: 2.5rem;
             display: flex;
@@ -280,7 +260,7 @@
             opacity: 1;
         }
 
-        /* 響應式設計 (手機版微調) */
+        /* 響應式設計 */
         @media (max-width: 768px) {
             .hero-title h1 { font-size: 3.5rem; }
             .hero-title p { font-size: 1.2rem; letter-spacing: 5px; }
@@ -301,12 +281,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 👑 標題文字流光動畫 */
         @keyframes shineText {
             to { background-position: 200% center; }
         }
 
-        /* 💡 圖片純漂浮動畫 (上下晃動即可) */
+        /* 💡 圖片純漂浮動畫 */
         @keyframes floatOnly {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
