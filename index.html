@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻幻 HuanHuan | 閃電蜜蜂小龍</title>
+    <style>
+        /* CSS 變數：定義主題色 */
+        :root {
+            --bg-dark: #09050e;
+            --primary-purple: #8b5cf6;
+            --light-purple: #c4b5fd;
+            --neon-purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+        }
+
+        /* 基礎設定與重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 0%, #2e1065 0%, var(--bg-dark) 60%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        /* 標題動畫與樣式 */
+        .hero-title {
+            text-align: center;
+            animation: slideDownFade 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .hero-title h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #fff, var(--light-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-title p {
+            font-size: 1.2rem;
+            color: var(--light-purple);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* 中間去背大圖區塊 */
+        .image-showcase {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInFloat 3s ease-in-out infinite alternate;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* 發光背景光暈 */
+        .image-showcase::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--neon-purple);
+            filter: blur(100px);
+            opacity: 0.3;
+            border-radius: 50%;
+            z-index: -1;
+            transition: all 0.5s ease;
+        }
+
+        .image-showcase:hover::before {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+
+        /* 替換為你的圖片：把 src 換成你的去背圖網址 */
+        .character-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .character-img:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        /* 玻璃擬態資訊卡片 */
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: slideUpFade 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            animation-delay: 0.8s;
+        }
+
+        .info-card h2 {
+            font-size: 1.5rem;
+            color: var(--light-purple);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .info-list strong {
+            color: var(--light-purple);
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        /* 社群按鈕區塊 */
+        .social-links {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-start;
+        }
+
+        .social-btn {
+            text-decoration: none;
+            color: var(--text-main);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 按鈕 hover 絲滑特效 */
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-purple), var(--neon-purple));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.4);
+            border-color: transparent;
+        }
+
+        .social-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* 響應式設計 (手機版) */
+        @media (max-width: 768px) {
+            .hero-title h1 { font-size: 3rem; }
+            .image-showcase { height: 350px; }
+            .info-card { padding: 1.5rem; }
+            .info-list li { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+            .social-links { flex-direction: column; }
+            .social-btn { justify-content: center; }
+        }
+
+        /* 關鍵格動畫 */
+        @keyframes slideDownFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInFloat {
+            0% { opacity: 0; transform: translateY(20px); }
+            20% { opacity: 1; transform: translateY(0px); }
+            100% { opacity: 1; transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="hero-title">
+            <h1>幻幻</h1>
+            <p>HuanHuan</p>
+        </header>
+
+        <div class="image-showcase">
+            <img src="profile.png" alt="幻幻 HuanHuan 閃電蜜蜂小龍" class="character-img">
+        </div>
+
+        <div class="info-card">
+            <h2>自我介紹</h2>
+            <ul class="info-list">
+                <li><strong>簡介</strong> 是隻閃電蜜蜂小龍</li>
+                <li><strong>名字</strong> 幻幻 HuanHuan</li>
+                <li><strong>設定設計</strong> 冷軌 Kaltespur</li>
+                <li><strong>毛毛工作室</strong> 漁屋 Yuwu Fursuit</li>
+            </ul>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/1BUFr5t3B2/?mibextid=wwXIfr" target="_blank" class="social-btn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                    Facebook
+                </a>
+                <a href="https://x.com/furrywolf1118?s=21&t=yjv-k6ZFiuu-52P0Vjic5A" target="_blank" class="social-btn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+                    X (Twitter)
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
