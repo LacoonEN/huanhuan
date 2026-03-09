@@ -2,10 +2,10 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>幻幻 HuanHuan | 閃電蜜蜂小龍</title>
     <style>
-        /* CSS 變數：定義主題色 */
+        /* CSS 變數：定義紫色主題色 */
         :root {
             --bg-dark: #07030a; 
             --primary-purple: #8b5cf6;
@@ -20,7 +20,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif;
+            font-family: 'PingFang TC', 'Heiti TC', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
@@ -30,22 +30,23 @@
                 radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 50% 50%, #1e1035 0%, var(--bg-dark) 70%);
             color: var(--text-main);
+            /* 使用 dvh 確保 iOS Safari 底部工具列不會遮擋畫面 */
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
-            padding: 2rem 0;
+            padding: 3rem 1rem;
         }
 
         .container {
             max-width: 1200px;
             width: 100%;
-            padding: 0 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem; 
+            gap: 1.5rem; 
         }
 
         /* 👑 標題樣式 */
@@ -58,15 +59,19 @@
         }
 
         .hero-title h1 {
-            font-size: 5.5rem; 
+            /* 使用 clamp 讓字體在手機和電腦間流暢縮放，防止破版 */
+            font-size: clamp(3.5rem, 8vw, 6rem); 
             font-weight: 900; 
             letter-spacing: -2px; 
             line-height: 1;
             margin-bottom: 0.5rem;
             
+            /* 相容 Safari 的文字漸層設定 */
             background: linear-gradient(135deg, #fff 0%, var(--light-purple) 45%, var(--primary-purple) 50%, #fff 55%, var(--light-purple) 100%);
             background-size: 200% auto;
+            color: #fff; /* Fallback */
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shineText 5s linear infinite;
 
@@ -77,40 +82,40 @@
         }
 
         .hero-title p {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             color: var(--light-purple);
             font-weight: 700;
-            letter-spacing: 10px; 
+            letter-spacing: clamp(4px, 1.5vw, 10px); 
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
             margin-top: -5px;
             margin-left: 10px; 
         }
 
-        /* 📸 中間圖片區塊：純上下漂浮，無互動 */
+        /* 📸 中間圖片區塊：純漂浮，RWD 適應不同裝置 */
         .image-showcase {
             position: relative;
             width: 100%;
             max-width: 550px; 
-            height: 550px;
+            aspect-ratio: 1 / 1; /* 保持正方形比例 */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 5;
             opacity: 1; 
             animation: floatOnly 6s ease-in-out infinite;
-            /* 讓圖片區塊不攔截滑鼠事件，確保完全沒有互動感 */
-            pointer-events: none; 
+            pointer-events: none; /* 移除互動感 */
+            will-change: transform; /* 提升手機版動畫效能 */
         }
 
-        /* 背景光暈 (保持靜態，隨圖片一起漂浮) */
+        /* 讓光暈隨裝置大小自動縮放 */
         .image-showcase::before {
             content: '';
             position: absolute;
-            width: 350px;
-            height: 350px;
+            width: 70%;
+            height: 70%;
             background: var(--neon-purple);
-            filter: blur(120px);
+            filter: blur(80px);
             opacity: 0.4;
             border-radius: 50%;
             z-index: -1;
@@ -121,17 +126,17 @@
             max-height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
-            /* 移除了 transform 的過渡效果與 hover */
         }
 
         /* 📝 玻璃擬態資訊卡片 */
         .info-card {
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
+            /* Safari 需要 -webkit- 前綴才能顯示毛玻璃 */
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 30px;
-            padding: 3rem;
+            padding: clamp(1.5rem, 5vw, 3rem); /* 根據螢幕調整內距 */
             width: 100%;
             max-width: 700px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
@@ -144,16 +149,16 @@
         }
 
         .info-card h2 {
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
             font-weight: 800;
             color: var(--light-purple);
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
             border-left: 4px solid var(--neon-purple);
             padding-left: 1rem;
             line-height: 1;
         }
 
-        /* 🔄 自我介紹欄位互動特效 (保留) */
+        /* 🔄 自我介紹欄位 */
         .info-list {
             list-style: none;
             display: flex;
@@ -164,7 +169,7 @@
         .info-list li {
             display: flex;
             align-items: center;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             padding: 1rem 1.5rem;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.01);
@@ -195,8 +200,15 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        .info-list li:hover::before {
-            width: 5px;
+        /* 移除手機端 Hover 以免觸控體驗不佳 */
+        @media (hover: hover) {
+            .info-list li:hover::before {
+                width: 5px;
+            }
+            .info-list li:hover strong {
+                color: #fff;
+                text-shadow: 0 0 5px var(--light-purple);
+            }
         }
 
         .info-list strong {
@@ -206,18 +218,14 @@
             font-weight: 700;
             transition: color 0.3s ease;
         }
-        
-        .info-list li:hover strong {
-            color: #fff;
-            text-shadow: 0 0 5px var(--light-purple);
-        }
 
         /* 社群按鈕區塊 */
         .social-links {
-            margin-top: 2.5rem;
+            margin-top: clamp(1.5rem, 4vw, 2.5rem);
             display: flex;
             gap: 1.2rem;
             justify-content: flex-start;
+            flex-wrap: wrap; /* 空間不夠時自動換行 */
         }
 
         .social-btn {
@@ -229,12 +237,15 @@
             letter-spacing: 1px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.8rem;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
             overflow: hidden;
+            flex: 1 1 auto; /* 按鈕彈性縮放 */
+            min-width: 150px; /* 保持最低寬度 */
         }
 
         .social-btn::before {
@@ -250,26 +261,33 @@
             transition: opacity 0.4s ease;
         }
 
-        .social-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
-            border-color: transparent;
+        @media (hover: hover) {
+            .social-btn:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
+                border-color: transparent;
+            }
+            .social-btn:hover::before {
+                opacity: 1;
+            }
         }
 
-        .social-btn:hover::before {
-            opacity: 1;
-        }
-
-        /* 響應式設計 */
+        /* 針對小螢幕與平板的進階 RWD 調整 */
         @media (max-width: 768px) {
-            .hero-title h1 { font-size: 3.5rem; }
-            .hero-title p { font-size: 1.2rem; letter-spacing: 5px; }
-            .image-showcase { height: 350px; max-width: 350px; }
-            .info-card { padding: 2rem; }
-            .info-list li { flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: 1rem; }
-            .info-list strong { width: 100%; }
-            .social-links { flex-direction: column; gap: 0.8rem; }
-            .social-btn { justify-content: center; }
+            body { padding: 2rem 1rem; }
+            .info-list li { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: 0.5rem; 
+                padding: 1.2rem; 
+            }
+            .info-list strong { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.3rem;}
+        }
+
+        /* 針對極小螢幕手機的保護 (如 iPhone SE) */
+        @media (max-width: 380px) {
+            .social-links { flex-direction: column; }
+            .social-btn { width: 100%; }
         }
 
         /* 關鍵格動畫 */
@@ -285,10 +303,9 @@
             to { background-position: 200% center; }
         }
 
-        /* 💡 圖片純漂浮動畫 */
         @keyframes floatOnly {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
     </style>
 </head>
